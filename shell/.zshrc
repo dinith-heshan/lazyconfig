@@ -21,7 +21,7 @@ export LS_COLORS='di=1;34:ln=1;35:so=1;32:pi=1;33:ex=1;31'
 #  Completion
 # ─────────────────────────────────────────────
 autoload -Uz compinit && compinit
-zstyle ':completion:*' matcher-list ''                      # case-insensitive
+zstyle ':completion:*' matcher-list ''                      # case-sensitive
 zstyle ':completion:*' menu select                          # navigable menu
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"     # coloured menu
 setopt COMPLETE_IN_WORD        # complete from cursor, not just end of word
@@ -42,7 +42,10 @@ function zle-keymap-select {
   esac
 }
 zle -N zle-keymap-select
-function zle-line-init { printf '\e[6 q' }
+function zle-line-init {
+  zle -K viins
+  printf '\e[6 q'
+}
 zle -N zle-line-init
 
 # ─────────────────────────────────────────────
