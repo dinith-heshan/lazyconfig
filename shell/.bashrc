@@ -1,37 +1,20 @@
-# ─────────────────────────────────────────────
-#  History
-# ─────────────────────────────────────────────
 HISTFILE=~/.bash_history
-HISTSIZE=100000                # commands kept in memory this session
-HISTFILESIZE=100000            # commands written to disk
-HISTCONTROL=ignoreboth:erasedups   # ignore dups + leading-space commands
-HISTTIMEFORMAT='%F %T '        # timestamps
-shopt -s histappend            # append, don't overwrite
-shopt -s cmdhist               # multi-line commands as one entry
+HISTSIZE=100000
+HISTFILESIZE=100000
+HISTCONTROL=ignoreboth:erasedups
+HISTTIMEFORMAT='%F %T '
+shopt -s histappend
+shopt -s cmdhist
 shopt -s checkwinsize
-PROMPT_COMMAND='history -a'    # write after each command (shared across tabs)
+PROMPT_COMMAND='history -a'
 
-# ─────────────────────────────────────────────
-#  Colours
-# ─────────────────────────────────────────────
 export LS_COLORS='di=1;34:ln=1;35:so=1;32:pi=1;33:ex=1;31'
-
-# ─────────────────────────────────────────────
-#  Completion
-# ─────────────────────────────────────────────
-[ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
-
-# ─────────────────────────────────────────────
-#  Vi mode      (cursor shapes live in .inputrc)
-# ─────────────────────────────────────────────
 export EDITOR=nvim
 
-# ─────────────────────────────────────────────
-#  Aliases & functions
-# ─────────────────────────────────────────────
+[ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
+
 alias ll='eza -agHhilM --git --group-directories-first'
 alias ls='eza --group-directories-first'
-
 alias grep='grep --color=auto'
 
 nvim() {
@@ -42,7 +25,6 @@ nvim() {
   fi
 }
 
-# lt [depth] [path]  — tree view, depth defaults to 2, path default to pwd
 lt() {
   local level=2 re='^[0-9]+$'
   if [[ -n $1 && $1 =~ $re ]]; then
@@ -52,7 +34,4 @@ lt() {
   eza --tree --level="$level" "$@"
 }
 
-# ─────────────────────────────────────────────
-#  Prompt  (last — sets PS1)
-# ─────────────────────────────────────────────
 eval "$(starship init bash)"

@@ -1,40 +1,27 @@
-# ─────────────────────────────────────────────
-#  History
-# ─────────────────────────────────────────────
 HISTFILE=~/.zsh_history
-HISTSIZE=100000                # commands kept in memory this session
-SAVEHIST=100000                # commands written to disk on exit
-setopt EXTENDED_HISTORY        # record timestamp and duration
-setopt HIST_IGNORE_ALL_DUPS    # drop older duplicates
-setopt HIST_IGNORE_SPACE       # skip commands starting with a space
-setopt HIST_REDUCE_BLANKS      # strip redundant whitespace
-setopt HIST_VERIFY             # confirm before running a !! expansion
-setopt SHARE_HISTORY           # share across open tabs
+HISTSIZE=100000
+SAVEHIST=100000
+setopt EXTENDED_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt HIST_VERIFY
+setopt SHARE_HISTORY
 
-# ─────────────────────────────────────────────
-#  Colours
-# ─────────────────────────────────────────────
-export CLICOLOR=1              # colour macOS ls
+export CLICOLOR=1
 export LS_COLORS='di=1;34:ln=1;35:so=1;32:pi=1;33:ex=1;31'
-
-# ─────────────────────────────────────────────
-#  Completion
-# ─────────────────────────────────────────────
-autoload -Uz compinit && compinit
-zstyle ':completion:*' matcher-list ''                      # case-sensitive
-zstyle ':completion:*' menu select                          # navigable menu
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"     # coloured menu
-setopt COMPLETE_IN_WORD        # complete from cursor, not just end of word
-setopt ALWAYS_TO_END           # move cursor to end after completing
-
-# ─────────────────────────────────────────────
-#  Vi mode
-# ─────────────────────────────────────────────
-bindkey -v
-export KEYTIMEOUT=1            # 10ms Esc delay instead of 400ms
 export EDITOR=nvim
+export KEYTIMEOUT=1
 
-# Cursor shape: block in normal, bar in insert
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list ''
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+setopt COMPLETE_IN_WORD
+setopt ALWAYS_TO_END
+
+bindkey -v
+
 function zle-keymap-select {
   case $KEYMAP in
     vicmd)      printf '\e[2 q' ;;
@@ -42,28 +29,21 @@ function zle-keymap-select {
   esac
 }
 zle -N zle-keymap-select
+
 function zle-line-init {
   zle -K viins
   printf '\e[6 q'
 }
 zle -N zle-line-init
 
-# ─────────────────────────────────────────────
-#  Key bindings
-# ─────────────────────────────────────────────
-# k/j walk history, filtered by what's already typed
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey -M vicmd 'k' up-line-or-beginning-search
 bindkey -M vicmd 'j' down-line-or-beginning-search
 
-# ─────────────────────────────────────────────
-#  Aliases & functions
-# ─────────────────────────────────────────────
 alias ll='eza -agHhilM --git --group-directories-first'
 alias ls='eza --group-directories-first'
-
 alias grep='grep --color=auto'
 
 nvim() {
@@ -74,7 +54,6 @@ nvim() {
   fi
 }
 
-# lt [depth] [path]  — tree view, depth defaults to 2, path default to pwd
 lt() {
   local level=2
   if [[ -n $1 && $1 =~ '^[0-9]+$' ]]; then
@@ -84,7 +63,4 @@ lt() {
   eza --tree --level="$level" "$@"
 }
 
-# ─────────────────────────────────────────────
-#  Prompt  (last — sets PROMPT)
-# ─────────────────────────────────────────────
 eval "$(starship init zsh)"

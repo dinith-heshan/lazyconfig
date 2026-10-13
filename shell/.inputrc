@@ -3,7 +3,6 @@ $include /etc/inputrc
 set editing-mode vi
 set keyseq-timeout 50
 
-# Cursor: bar in insert, block in normal
 set show-mode-in-prompt on
 set vi-ins-mode-string "\1\e[6 q\2"
 set vi-cmd-mode-string "\1\e[2 q\2"
@@ -13,13 +12,11 @@ set show-all-if-ambiguous on
 set colored-stats on
 set colored-completion-prefix on
 
-# k/j history search in normal mode
 set keymap vi-command
 "k": history-search-backward
 "j": history-search-forward
 "v": ""
 
-# Prefix-filtered history on arrows
 set keymap vi-insert
 "\e[A": history-search-backward
 "\e[B": history-search-forward
