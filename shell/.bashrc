@@ -44,8 +44,8 @@ nvim() {
 
 # lt [depth] [path]  — tree view, depth defaults to 2, path default to pwd
 lt() {
-  local level=2
-  if [[ -n $1 && $1 =~ '^[0-9]+$' ]]; then
+  local level=2 re='^[0-9]+$'
+  if [[ -n $1 && $1 =~ $re ]]; then
     level=$1
     shift
   fi
