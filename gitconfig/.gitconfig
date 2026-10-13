@@ -1,0 +1,5 @@
+[user]
+  name = dinith-heshan
+  email = dinithheshansp@gmail.com
+[include]
+  path = ~/.gitconfig.local
