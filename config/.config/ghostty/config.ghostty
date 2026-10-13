@@ -1,0 +1,21 @@
+theme = TokyoNight Night
+
+background-image = ~/.config/ghostty/background-image.jpg
+background-image-opacity = 0.1
+background-image-fit = cover
+
+font-family = JetBrainsMono Nerd Font
+font-size = 14
+
+window-padding-x = 12
+window-padding-y = 12
+window-padding-balance = true
+
+tab-inherit-working-directory = true
+split-inherit-working-directory = true
+window-inherit-working-directory = false
+
+macos-option-as-alt = true
+
+shell-integration-features = sudo,ssh-terminfo,ssh-env
+background-blur = true
