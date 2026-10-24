@@ -2,7 +2,9 @@ vim.api.nvim_create_autocmd('PackChanged', {
   group = vim.api.nvim_create_augroup('plugins-pack-changed', { clear = true }),
   callback = function(args)
     local name, kind = args.data.spec.name, args.data.kind
-    if kind ~= 'install' and kind ~= 'update' then return end
+    if kind ~= 'install' and kind ~= 'update' then
+      return
+    end
 
     if name == 'nvim-treesitter' then
       if not args.data.active then
@@ -33,6 +35,13 @@ vim.pack.add({
   { src = 'https://github.com/nvim-mini/mini.nvim' },
   { src = 'https://github.com/lewis6991/gitsigns.nvim' },
   { src = 'https://github.com/tpope/vim-fugitive' },
+
+  { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.*') },
+  { src = 'https://github.com/neovim/nvim-lspconfig' },
+  { src = 'https://github.com/mason-org/mason.nvim' },
+  { src = 'https://github.com/mason-org/mason-lspconfig.nvim' },
+  { src = 'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim' },
+  { src = 'https://github.com/stevearc/conform.nvim' },
 })
 
 require('plugins.tokyonight')
@@ -46,3 +55,7 @@ require('plugins.treesitter')
 require('plugins.mini')
 require('plugins.gitsigns')
 require('plugins.fugitive')
+
+require('plugins.blink')
+require('plugins.lsp')
+require('plugins.conform')
