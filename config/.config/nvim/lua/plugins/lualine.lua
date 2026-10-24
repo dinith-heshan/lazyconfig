@@ -11,7 +11,7 @@ require('lualine').setup({
     theme = 'auto',
     globalstatus = true,
     icons_enabled = true,
-    section_separators   = { left = '\u{e0b0}', right = '\u{e0b2}' },
+    section_separators = { left = '\u{e0b0}', right = '\u{e0b2}' },
     component_separators = { left = '|', right = '|' },
   },
   sections = {

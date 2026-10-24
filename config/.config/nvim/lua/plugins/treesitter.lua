@@ -17,7 +17,7 @@ local parsers = {
   'typescript',
   'vim',
   'vimdoc',
-  'yaml'
+  'yaml',
 }
 
 require('nvim-treesitter').install(parsers)
@@ -30,7 +30,9 @@ vim.api.nvim_create_autocmd('FileType', {
   desc = 'Start treesitter highlighting and indent, warn if the parser is missing',
   callback = function(args)
     local language = vim.treesitter.language.get_lang(args.match)
-    if not language then return end
+    if not language then
+      return
+    end
 
     if vim.treesitter.language.add(language) then
       vim.treesitter.start(args.buf, language)
