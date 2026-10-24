@@ -2,7 +2,6 @@ local gitsigns = require('gitsigns')
 
 gitsigns.setup({
   on_attach = function(buffer_number)
-
     vim.keymap.set('n', ']h', function() gitsigns.nav_hunk('next') end, { buffer = buffer_number, desc = 'Next [H]unk' })
     vim.keymap.set('n', '[h', function() gitsigns.nav_hunk('prev') end, { buffer = buffer_number, desc = 'Previous [H]unk' })
 
