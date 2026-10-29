@@ -4,7 +4,7 @@
 
 | Tool | Used for |
 |---|---|
-| [Homebrew](https://brew.sh) | installs and updates all tools below, macOS and Linux |
+| [Homebrew](https://brew.sh) | install and update tools |
 
 ## Tools
 
