@@ -1,3 +1,5 @@
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+
 HISTFILE=~/.bash_history
 HISTSIZE=100000
 HISTFILESIZE=100000
