@@ -1,5 +1,11 @@
 # lazyconfig
 
+## Package manager
+
+| Tool | Used for |
+|---|---|
+| [Homebrew](https://brew.sh) | installs and updates all tools below, macOS and Linux |
+
 ## Tools
 
 | Tool | Used for |
