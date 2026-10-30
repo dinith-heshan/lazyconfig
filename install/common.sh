@@ -42,7 +42,7 @@ install_homebrew_if_missing() {
   fi
   note "installing, asks for your password once"
   # NONINTERACTIVE can't prompt for a password, so cache sudo first.
-  sudo -v
+  sudo -v || die "needs sudo. Without sudo, use --link-only (Linux)."
   NONINTERACTIVE=1 /bin/bash -c \
     "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   load_homebrew_env || die "installed, but brew wasn't found"
