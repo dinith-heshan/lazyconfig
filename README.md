@@ -1,6 +1,6 @@
 # lazyconfig
 
-Terminal configuration for macOS and Linux: zsh, tmux, nvim, Ghostty.
+Terminal configuration for macOS and Linux.
 
 ## Install
 
