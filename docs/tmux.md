@@ -2,13 +2,18 @@
 
 `.tmux.conf`
 
+## Settings
+
 | Setting | Value |
 |---|---|
 | mouse | on |
 | windows | start at 1, renumber on close |
 | splits / new window | keep current path |
 | copy mode | vi |
+| clipboard | OSC 52, [clipboard](clipboard.md) |
 | colors | tokyonight, ghostty RGB |
+
+## Keys
 
 | Table | Key | Does |
 |---|---|---|
