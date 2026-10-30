@@ -51,17 +51,45 @@ install_brewfile_packages() {
   fi
 }
 
+move_to_backup() {
+  local relative_path="$1"
+  mkdir -p "$BACKUP_DIR/$(dirname "$relative_path")"
+  mv "$HOME/$relative_path" "$BACKUP_DIR/$relative_path"
+  warn "moved ~/$relative_path to the backup dir"
+  BACKUP_COUNT=$((BACKUP_COUNT + 1))
+}
+
+points_into_repo() {
+  local home_path="$1" repo_path="$2"
+  [ "$(readlink -f "$HOME/$home_path")" = "$(readlink -f "$repo_path")" ]
+}
+
+first_symlinked_parent() {
+  local relative_path="$1" parents prefix="" part
+  parents="$(dirname "$relative_path")"
+  [ "$parents" != . ] || return 1
+  local IFS=/
+  for part in $parents; do
+    prefix="${prefix:+$prefix/}$part"
+    if [ -L "$HOME/$prefix" ]; then
+      echo "$prefix"
+      return 0
+    fi
+  done
+  return 1
+}
+
 backup_files_blocking_stow() {
-  local package="$1" source_file relative_path target
+  local package="$1" source_file relative_path linked_parent
   while IFS= read -r -d '' source_file; do
     relative_path="${source_file#"$REPO_DIR/$package/"}"
-    target="$HOME/$relative_path"
-    [ -e "$target" ] || [ -L "$target" ] || continue
-    [ "$(readlink -f "$target")" = "$(readlink -f "$source_file")" ] && continue
-    mkdir -p "$BACKUP_DIR/$(dirname "$relative_path")"
-    mv "$target" "$BACKUP_DIR/$relative_path"
-    warn "moved ~/$relative_path to the backup dir"
-    BACKUP_COUNT=$((BACKUP_COUNT + 1))
+    if linked_parent="$(first_symlinked_parent "$relative_path")"; then
+      points_into_repo "$linked_parent" "$REPO_DIR/$package/$linked_parent" ||
+        move_to_backup "$linked_parent"
+      continue
+    fi
+    [ -e "$HOME/$relative_path" ] || [ -L "$HOME/$relative_path" ] || continue
+    points_into_repo "$relative_path" "$source_file" || move_to_backup "$relative_path"
   done < <(find "$REPO_DIR/$package" -type f -print0)
 }
 
