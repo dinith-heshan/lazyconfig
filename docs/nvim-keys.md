@@ -17,7 +17,6 @@ Set in the config files.
 | n | `<leader>w` | write |
 | n | `<leader>q` | quit window |
 | n | `<leader>bd` | delete buffer |
-| n | `<leader>sh` `<leader>sv` | split / vsplit |
 | t | `C-q` | exit terminal mode |
 | n | `q` | close help / man / checkhealth |
 | n | `<leader>pv` | oil |
