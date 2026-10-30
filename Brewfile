@@ -11,6 +11,8 @@ brew "tree-sitter-cli"
 brew "node"
 brew "python"
 
-# macOS only
-cask "ghostty"
-cask "font-jetbrains-mono-nerd-font"
+# macOS only, Linux gets these from install/linux.sh
+if OS.mac?
+  cask "ghostty"
+  cask "font-jetbrains-mono-nerd-font"
+end
