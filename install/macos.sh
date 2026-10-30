@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# shellcheck source=install/common.sh
 source "$(dirname "$0")/common.sh"
 
 require_macos() {
@@ -8,18 +9,19 @@ require_macos() {
 }
 
 require_command_line_tools() {
+  step "Command Line Tools"
   if xcode-select -p >/dev/null 2>&1; then
-    info "Command Line Tools found"
+    ok "found"
     return
   fi
   xcode-select --install >/dev/null 2>&1 || true
-  die "Command Line Tools missing. Finish the install, then run ./install.sh again."
+  die "missing. Finish the install that opened, then run ./install.sh again."
 }
 
 print_next_steps() {
-  info "Done. Next:"
-  info "  open Ghostty"
-  info "  run nvim once, plugins and tools install on first launch"
+  step "Done"
+  note "open Ghostty"
+  note "run nvim once to install plugins and tools"
 }
 
 main() {
