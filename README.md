@@ -43,3 +43,4 @@
 | [git](docs/git.md) | gitconfig |
 | [nvim](docs/nvim.md) | settings, plugins |
 | [nvim keys](docs/nvim-keys.md) | custom, built-in and plugin keys |
+| [clipboard](docs/clipboard.md) | copying to the local clipboard from tmux, nvim, SSH |
