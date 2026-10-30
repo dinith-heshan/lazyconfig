@@ -20,12 +20,17 @@ require_command_line_tools() {
 
 print_next_steps() {
   step "Done"
+  [ "$LINK_ONLY" -eq 0 ] || return 0
   note "open Ghostty"
   note "run nvim once to install plugins and tools"
 }
 
-main() {
-  require_macos
+link_only() {
+  link_dotfiles_with_ln
+  print_next_steps
+}
+
+full_install() {
   require_non_root
   require_command_line_tools
   install_homebrew_if_missing
@@ -34,4 +39,14 @@ main() {
   print_next_steps
 }
 
-main
+main() {
+  parse_args ${1+"$@"}
+  require_macos
+  if [ "$LINK_ONLY" -eq 1 ]; then
+    link_only
+  else
+    full_install
+  fi
+}
+
+main ${1+"$@"}
