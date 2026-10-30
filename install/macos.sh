@@ -19,8 +19,11 @@ require_command_line_tools() {
 }
 
 print_next_steps() {
-  step "Done"
-  [ "$LINK_ONLY" -eq 0 ] || return 0
+  step "Next"
+  if [ "$LINK_ONLY" -eq 1 ]; then
+    note "nothing installed, configs use the tools already on this machine"
+    return
+  fi
   note "open Ghostty"
   note "run nvim once to install plugins and tools"
 }
@@ -42,6 +45,7 @@ full_install() {
 main() {
   parse_args ${1+"$@"}
   require_macos
+  header "macOS · $(install_mode)"
   if [ "$LINK_ONLY" -eq 1 ]; then
     link_only
   else
