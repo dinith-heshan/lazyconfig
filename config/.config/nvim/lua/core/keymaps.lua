@@ -21,7 +21,5 @@ vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { desc = '[Y]ank to system clip
 vim.keymap.set('n', '<leader>w', '<cmd>write<CR>', { desc = '[W]rite file' })
 vim.keymap.set('n', '<leader>q', '<cmd>quit<CR>', { desc = '[Q]uit window' })
 vim.keymap.set('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = '[B]uffer [D]elete' })
-vim.keymap.set('n', '<leader>sh', '<cmd>split<CR>', { desc = '[S]plit [H]orizontally' })
-vim.keymap.set('n', '<leader>sv', '<cmd>vsplit<CR>', { desc = '[S]plit [V]ertically' })
 
 vim.keymap.set('t', '<C-q>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
