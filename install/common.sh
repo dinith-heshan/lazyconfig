@@ -2,7 +2,7 @@
 # Shared by macos.sh and linux.sh. Must stay compatible with macOS's bash 3.2.
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-STOW_PACKAGES="shell config tmux gitconfig"
+DOTFILE_PACKAGES="shell config tmux gitconfig"
 BACKUP_DIR="$HOME/.lazyconfig-backup/$(date +%Y%m%d-%H%M%S)"
 BACKUP_COUNT=0
 
@@ -110,11 +110,11 @@ link_dotfiles_with_stow() {
   step "Dotfiles"
   mkdir -p "$HOME/.config"
   local package
-  for package in $STOW_PACKAGES; do
+  for package in $DOTFILE_PACKAGES; do
     backup_files_blocking_stow "$package"
     stow --dir "$REPO_DIR" --target "$HOME" --restow "$package"
   done
-  ok "linked $STOW_PACKAGES"
+  ok "linked $DOTFILE_PACKAGES"
   if [ "$BACKUP_COUNT" -gt 0 ]; then
     note "old files saved in $BACKUP_DIR"
   fi
