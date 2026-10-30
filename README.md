@@ -1,28 +1,53 @@
 # lazyconfig
 
+Terminal configuration for macOS and Linux: zsh, tmux, nvim, Ghostty.
+
+## Install
+
+### macOS
+
+```sh
+xcode-select --install
+git clone https://github.com/dinith-heshan/lazyconfig.git ~/lazyconfig
+cd ~/lazyconfig && ./install.sh
+```
+
+### Linux
+
+```sh
+git clone https://github.com/dinith-heshan/lazyconfig.git ~/lazyconfig
+cd ~/lazyconfig && ./install.sh
+```
+
+### Options
+
+| Option | Does |
+|---|---|
+| `--link-only` | Links configs with `ln -s`, installs nothing. For machines without sudo or admin rights |
+
 ## Package manager
 
 | Tool | Used for |
 |---|---|
-| [Homebrew](https://brew.sh) | install and update tools |
+| [Homebrew](https://brew.sh) | install and update tools on macOS and Linux, listed in `Brewfile` |
 
 ## Tools
 
-| Tool | Used for |
-|---|---|
-| [GNU Stow](https://www.gnu.org/software/stow/) | symlinking into `~` |
-| [Ghostty](https://github.com/ghostty-org/ghostty) | terminal |
-| [JetBrainsMono Nerd Font](https://github.com/ryanoasis/nerd-fonts) | font, icons |
-| [tmux](https://github.com/tmux/tmux) | multiplexer |
-| [starship](https://github.com/starship/starship) | prompt |
-| [eza](https://github.com/eza-community/eza) | `ls` `ll` `lt` |
-| [neovim](https://github.com/neovim/neovim) | editor, 0.12+ for `vim.pack` |
-| [Node.js](https://github.com/nodejs/node) | mason installs prettier, basedpyright via npm |
-| [Python 3](https://github.com/python/cpython) | mason installs ruff, sqlfluff via pip |
-| [ripgrep](https://github.com/BurntSushi/ripgrep) | telescope grep |
-| [fd](https://github.com/sharkdp/fd) | telescope find files |
-| [tree-sitter-cli](https://github.com/tree-sitter/tree-sitter) | building parsers |
-| `make` + C compiler | building telescope-fzf-native |
+| Tool | Used for | Installed by |
+|---|---|---|
+| [GNU Stow](https://www.gnu.org/software/stow/) | symlinking into `~` | Brewfile |
+| [Ghostty](https://github.com/ghostty-org/ghostty) | terminal | Brewfile on macOS, manual on Linux |
+| [JetBrainsMono Nerd Font](https://github.com/ryanoasis/nerd-fonts) | font, icons | Brewfile on macOS, `install.sh` on Linux desktop |
+| [tmux](https://github.com/tmux/tmux) | multiplexer | Brewfile |
+| [starship](https://github.com/starship/starship) | prompt | Brewfile |
+| [eza](https://github.com/eza-community/eza) | `ls` `ll` `lt` | Brewfile |
+| [neovim](https://github.com/neovim/neovim) | editor, 0.12+ for `vim.pack` | Brewfile |
+| [Node.js](https://github.com/nodejs/node) | mason installs prettier, basedpyright via npm | Brewfile |
+| [Python 3](https://github.com/python/cpython) | mason installs ruff, sqlfluff via pip | Brewfile |
+| [ripgrep](https://github.com/BurntSushi/ripgrep) | telescope grep | Brewfile |
+| [fd](https://github.com/sharkdp/fd) | telescope find files | Brewfile |
+| [tree-sitter-cli](https://github.com/tree-sitter/tree-sitter) | building parsers | Brewfile |
+| `make` + C compiler | building telescope-fzf-native | Command Line Tools on macOS, distro on Linux |
 
 ## Prefixes
 
@@ -36,6 +61,7 @@
 
 | File | Covers |
 |---|---|
+| [install](docs/install.md) | steps, detection, backup, troubleshooting |
 | [shell](docs/shell.md) | zsh, bash, readline, aliases |
 | [tmux](docs/tmux.md) | settings, keys |
 | [ghostty](docs/ghostty.md) | terminal settings |
