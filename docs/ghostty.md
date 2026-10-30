@@ -2,6 +2,8 @@
 
 `.config/ghostty/config.ghostty`
 
+## Settings
+
 | Setting | Value |
 |---|---|
 | theme | TokyoNight Night |
@@ -9,3 +11,5 @@
 | option key | acts as alt |
 | shell integration | sudo, ssh-terminfo, ssh-env |
 | new tab / split | inherits cwd |
+| clipboard | write allowed, read asks |
+| copy on select | system clipboard |
