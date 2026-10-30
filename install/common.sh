@@ -5,21 +5,41 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DOTFILE_PACKAGES="shell config tmux gitconfig"
 BACKUP_DIR="$HOME/.lazyconfig-backup/$(date +%Y%m%d-%H%M%S)"
 BACKUP_COUNT=0
+BACKED_UP_PATHS=""
 LINK_ONLY=0
+STEP_SHOWN=0
 
-step() { printf '\n\033[1;34m%s\033[0m\n' "$*"; }
+header() { printf '\033[1mlazyconfig · %s\033[0m\n' "$*"; }
+step() {
+  STEP_SHOWN=1
+  printf '\n\033[1;34m%s\033[0m\n' "$*"
+}
 ok() { printf '  \033[32m✓\033[0m %s\n' "$*"; }
+skip() { printf '  \033[2m– %s\033[0m\n' "$*"; }
 note() { printf '  \033[2m%s\033[0m\n' "$*"; }
 warn() { printf '  \033[33m!\033[0m %s\n' "$*" >&2; }
 die() {
+  [ "$STEP_SHOWN" -eq 1 ] || step "Check"
   printf '  \033[31m✗\033[0m %s\n' "$*" >&2
   exit 1
+}
+
+install_mode() {
+  if [ "$LINK_ONLY" -eq 1 ]; then
+    echo "link only"
+  else
+    echo "full install"
+  fi
+}
+
+home_relative() {
+  echo "~${1#"$HOME"}"
 }
 
 parse_args() {
   local arg
   for arg in ${1+"$@"}; do
-    # shellcheck disable=SC2034 # LINK_ONLY is read by macos.sh and linux.sh
+    # shellcheck disable=SC2034
     case "$arg" in
       --link-only) LINK_ONLY=1 ;;
       *) die "unknown option: $arg (only --link-only)" ;;
@@ -28,7 +48,7 @@ parse_args() {
 }
 
 require_non_root() {
-  [ "$(id -u)" -ne 0 ] || die "run as your user, not root"
+  [ "$(id -u)" -ne 0 ] || die "run as a normal user, not root"
 }
 
 load_homebrew_env() {
@@ -49,29 +69,29 @@ load_homebrew_env() {
 install_homebrew_if_missing() {
   step "Homebrew"
   if load_homebrew_env; then
-    ok "found at $(brew --prefix)"
+    ok "found: $(brew --prefix)"
     return
   fi
   note "installing, asks for your password once"
   # NONINTERACTIVE can't prompt for a password, so cache sudo first.
-  sudo -v || die "needs sudo. Without sudo, use --link-only."
+  sudo -v || die "needs sudo. Without it, use --link-only."
   NONINTERACTIVE=1 /bin/bash -c \
     "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   load_homebrew_env || die "installed, but brew wasn't found"
-  ok "installed at $(brew --prefix)"
+  ok "installed: $(brew --prefix)"
 }
 
 install_brewfile_packages() {
   step "Packages"
   local brewfile="$REPO_DIR/Brewfile"
   if brew bundle check --no-upgrade --file "$brewfile" >/dev/null 2>&1; then
-    ok "everything in Brewfile already installed"
+    ok "all Brewfile packages installed"
     return
   fi
   if brew bundle --no-upgrade --file "$brewfile"; then
-    ok "Brewfile installed"
+    ok "Brewfile packages installed"
   else
-    warn "some packages failed, see above. Fix them, then run ./install.sh again."
+    warn "some packages failed, see above. Fix them, then run ./install.sh again"
   fi
 }
 
@@ -79,7 +99,8 @@ move_to_backup() {
   local relative_path="$1"
   mkdir -p "$BACKUP_DIR/$(dirname "$relative_path")"
   mv "$HOME/$relative_path" "$BACKUP_DIR/$relative_path"
-  warn "moved ~/$relative_path to the backup dir"
+  BACKED_UP_PATHS="$BACKED_UP_PATHS$relative_path
+"
   BACKUP_COUNT=$((BACKUP_COUNT + 1))
 }
 
@@ -117,6 +138,20 @@ backup_files_blocking_stow() {
   done < <(find "$REPO_DIR/$package" -type f -print0)
 }
 
+report_backups() {
+  [ "$BACKUP_COUNT" -gt 0 ] || return 0
+  local noun="files" path
+  [ "$BACKUP_COUNT" -ne 1 ] || noun="file"
+  warn "$BACKUP_COUNT $noun moved to $(home_relative "$BACKUP_DIR")"
+  while IFS= read -r path; do
+    if [ -n "$path" ]; then
+      note "  $path"
+    fi
+  done <<EOF
+$BACKED_UP_PATHS
+EOF
+}
+
 link_dotfiles_with_stow() {
   # Without a real ~/.config, stow would make ~/.config itself a link into the repo.
   step "Dotfiles"
@@ -126,10 +161,8 @@ link_dotfiles_with_stow() {
     backup_files_blocking_stow "$package"
     stow --dir "$REPO_DIR" --target "$HOME" --restow "$package"
   done
-  ok "linked $DOTFILE_PACKAGES"
-  if [ "$BACKUP_COUNT" -gt 0 ]; then
-    note "old files saved in $BACKUP_DIR"
-  fi
+  report_backups
+  ok "linked with stow: ${DOTFILE_PACKAGES// /, }"
 }
 
 relative_path_between() {
@@ -178,8 +211,6 @@ link_dotfiles_with_ln() {
   for package in $DOTFILE_PACKAGES; do
     link_folder_contents "$(cd "$REPO_DIR/$package" && pwd -P)" ""
   done
-  ok "linked $DOTFILE_PACKAGES"
-  if [ "$BACKUP_COUNT" -gt 0 ]; then
-    note "old files saved in $BACKUP_DIR"
-  fi
+  report_backups
+  ok "linked with ln -s: ${DOTFILE_PACKAGES// /, }"
 }
