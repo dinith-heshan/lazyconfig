@@ -76,18 +76,57 @@ install_homebrew_prerequisites() {
   ok "compiler, git, curl installed with $PACKAGE_MANAGER"
 }
 
-ensure_stow_for_link_only() {
-  step "Stow"
-  if command -v stow >/dev/null 2>&1; then
-    ok "found"
+relative_path_between() {
+  local from_dir="$1" to_path="$2" up=""
+  while [ "$from_dir" != / ] && [ "${to_path#"$from_dir"/}" = "$to_path" ]; do
+    from_dir="$(dirname "$from_dir")"
+    up="../$up"
+  done
+  if [ "$from_dir" = / ]; then
+    echo "$up${to_path#/}"
+  else
+    echo "$up${to_path#"$from_dir"/}"
+  fi
+}
+
+# Relative links, like stow makes, so a later full install can take them over.
+link_with_ln() {
+  local source="$1" relative_path="$2" target_dir
+  target_dir="$(cd "$HOME/$(dirname "$relative_path")" && pwd -P)"
+  ln -s "$(relative_path_between "$target_dir" "$source")" "$HOME/$relative_path"
+}
+
+link_entry() {
+  local source="$1" relative_path="$2" target="$HOME/$2"
+  if [ -d "$source" ] && [ -d "$target" ] && [ ! -L "$target" ]; then
+    link_folder_contents "$source" "$relative_path"
     return
   fi
-  if [ "$(id -u)" -eq 0 ] && [ -n "$PACKAGE_MANAGER" ]; then
-    install_distro_packages stow
-    ok "installed with $PACKAGE_MANAGER"
-    return
+  if [ -e "$target" ] || [ -L "$target" ]; then
+    points_into_repo "$relative_path" "$source" && return
+    move_to_backup "$relative_path"
   fi
-  die "missing. Install it with: $(distro_install_command) stow"
+  link_with_ln "$source" "$relative_path"
+}
+
+link_folder_contents() {
+  local source_dir="$1" relative_dir="$2" source
+  while IFS= read -r -d '' source; do
+    link_entry "$source" "${relative_dir:+$relative_dir/}$(basename "$source")"
+  done < <(find "$source_dir" -mindepth 1 -maxdepth 1 -print0)
+}
+
+link_dotfiles_with_ln() {
+  step "Dotfiles"
+  mkdir -p "$HOME/.config"
+  local package
+  for package in $DOTFILE_PACKAGES; do
+    link_folder_contents "$(cd "$REPO_DIR/$package" && pwd -P)" ""
+  done
+  ok "linked $DOTFILE_PACKAGES"
+  if [ "$BACKUP_COUNT" -gt 0 ]; then
+    note "old files saved in $BACKUP_DIR"
+  fi
 }
 
 has_local_display() {
@@ -126,8 +165,7 @@ print_next_steps() {
 }
 
 link_only() {
-  ensure_stow_for_link_only
-  link_dotfiles_with_stow
+  link_dotfiles_with_ln
   print_next_steps
 }
 
