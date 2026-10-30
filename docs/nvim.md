@@ -2,6 +2,8 @@
 
 `.config/nvim`. Plugins install via `vim.pack` on first launch, pinned in `nvim-pack-lock.json`.
 
+## Settings
+
 | Setting | Value |
 |---|---|
 | indent | 2 spaces |
@@ -9,6 +11,7 @@
 | mouse | off |
 | wrap | off |
 | swap / undo | no swapfile, persistent undo |
+| clipboard | system tool locally, OSC 52 over SSH |
 | search | smartcase |
 | netrw | disabled, oil replaces it |
 
