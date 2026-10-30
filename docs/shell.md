@@ -11,7 +11,7 @@
 | history | 100k, shared, no dups, space-prefixed ignored |
 | `$EDITOR` | nvim |
 | `KEYTIMEOUT` | 1 (instant `Esc`) |
-| Homebrew | `.zprofile` expects `/opt/homebrew` |
+| Homebrew | found in `/opt/homebrew`, `/usr/local` or `/home/linuxbrew` |
 
 ## Keys
 
