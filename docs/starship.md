@@ -2,6 +2,8 @@
 
 `.config/starship.toml`
 
+## Settings
+
 | Setting | Value |
 |---|---|
 | prompt | `❯`, green ok / red error |
