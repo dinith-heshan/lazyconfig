@@ -17,5 +17,9 @@ window-inherit-working-directory = false
 
 macos-option-as-alt = true
 
+clipboard-write = allow
+clipboard-read = ask
+copy-on-select = clipboard
+
 shell-integration-features = sudo,ssh-terminfo,ssh-env
 background-blur = true
