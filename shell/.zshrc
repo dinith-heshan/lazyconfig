@@ -42,8 +42,12 @@ zle -N down-line-or-beginning-search
 bindkey -M vicmd 'k' up-line-or-beginning-search
 bindkey -M vicmd 'j' down-line-or-beginning-search
 
-alias ll='eza -agHhilM --git --group-directories-first'
-alias ls='eza --group-directories-first'
+if command -v eza >/dev/null 2>&1; then
+  alias ll='eza -agHhilM --git --group-directories-first'
+  alias ls='eza --group-directories-first'
+else
+  alias ll='ls -lAh'
+fi
 alias grep='grep --color=auto'
 
 nvim() {
@@ -63,4 +67,4 @@ lt() {
   eza --tree --level="$level" "$@"
 }
 
-eval "$(starship init zsh)"
+command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
