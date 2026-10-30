@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Shared by macos.sh and linux.sh. Must stay compatible with macOS's bash 3.2.
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
