@@ -1,5 +1,7 @@
 # git
 
+## Files
+
 | File | Holds |
 |---|---|
 | `.gitconfig` | name, email |
