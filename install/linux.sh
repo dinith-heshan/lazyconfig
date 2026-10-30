@@ -43,6 +43,14 @@ install_distro_packages() {
   esac
 }
 
+package_manager_name() {
+  if [ "$PACKAGE_MANAGER" = apt-get ]; then
+    echo apt
+  else
+    echo "$PACKAGE_MANAGER"
+  fi
+}
+
 distro_install_command() {
   local sudo_prefix="sudo "
   [ "$(id -u)" -ne 0 ] || sudo_prefix=""
@@ -62,7 +70,7 @@ install_homebrew_prerequisites() {
     pacman) install_distro_packages base-devel procps-ng curl file git xz ;;
     *) die "no apt, dnf or pacman. Install gcc, make, curl, file, git, xz yourself, or use --link-only." ;;
   esac
-  ok "compiler, git, curl installed with $PACKAGE_MANAGER"
+  ok "installed with $(package_manager_name): build tools, curl, git"
 }
 
 has_local_display() {
@@ -72,23 +80,32 @@ has_local_display() {
 install_font_on_desktop() {
   step "Font"
   if ! has_local_display; then
-    ok "skipped, no display (only needed where the terminal runs)"
+    skip "skipped: no display, only needed where the terminal runs"
     return
   fi
-  if [ -d "$FONT_DIR" ]; then
-    ok "JetBrainsMono Nerd Font found"
+  if [ -n "$(find "$FONT_DIR" -name '*.ttf' 2>/dev/null | head -1)" ]; then
+    ok "found: JetBrainsMono Nerd Font"
     return
   fi
   mkdir -p "$FONT_DIR"
-  curl -fsSL "$FONT_URL" | tar -xJ -C "$FONT_DIR"
+  if ! curl -fsSL "$FONT_URL" | tar -xJ -C "$FONT_DIR" 2>/dev/null; then
+    rm -rf "$FONT_DIR"
+    warn "download failed, run ./install.sh again later"
+    return
+  fi
   if command -v fc-cache >/dev/null 2>&1; then
     fc-cache -f "$FONT_DIR" >/dev/null
   fi
-  ok "JetBrainsMono Nerd Font installed"
+  ok "installed: JetBrainsMono Nerd Font"
 }
 
 print_next_steps() {
-  step "Done"
+  step "Next"
+  if [ "$LINK_ONLY" -eq 1 ]; then
+    note "nothing installed, configs use the tools already on this machine"
+  else
+    note "run nvim once to install plugins and tools"
+  fi
   if has_local_display && ! command -v ghostty >/dev/null 2>&1; then
     note "Ghostty (optional): https://ghostty.org/docs/install/binary"
   fi
@@ -97,7 +114,6 @@ print_next_steps() {
   elif [ "$(basename "${SHELL:-}")" != zsh ]; then
     note "zsh as default (optional): chsh -s \"$(command -v zsh)\""
   fi
-  [ "$LINK_ONLY" -eq 1 ] || note "run nvim once to install plugins and tools"
 }
 
 link_only() {
@@ -106,7 +122,7 @@ link_only() {
 }
 
 full_install() {
-  [ "$(id -u)" -ne 0 ] || die "Homebrew won't run as root. Run as your user, or use --link-only."
+  [ "$(id -u)" -ne 0 ] || die "Homebrew won't run as root. Run as a normal user, or use --link-only."
   install_homebrew_prerequisites
   install_homebrew_if_missing
   install_brewfile_packages
@@ -119,6 +135,11 @@ main() {
   parse_args "$@"
   require_linux
   detect_package_manager
+  if [ -n "$PACKAGE_MANAGER" ]; then
+    header "Linux ($(package_manager_name)) · $(install_mode)"
+  else
+    header "Linux · $(install_mode)"
+  fi
   if [ "$LINK_ONLY" -eq 1 ]; then
     link_only
   else
