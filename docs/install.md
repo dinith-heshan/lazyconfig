@@ -7,21 +7,21 @@
 | File | Does |
 |---|---|
 | `install.sh` | picks the script for the OS |
-| `install/macos.sh` | macOS steps |
+| `install/macos.sh [--link-only]` | macOS steps |
 | `install/linux.sh [--link-only]` | Linux steps |
-| `install/common.sh` | shared: output, Homebrew, backup, stow |
+| `install/common.sh` | shared: output, options, Homebrew, backup, linking |
 | `Brewfile` | packages, casks on macOS only |
 
 ## macOS
 
 ### Steps
 
-| Step | Does |
-|---|---|
-| Command Line Tools | git, make, C compiler; stops if missing |
-| Homebrew | installed if missing, asks for password once |
-| Packages | `brew bundle`, skipped if all installed, no upgrades |
-| Dotfiles | backup, then `stow` |
+| Step | Full | `--link-only` |
+|---|---|---|
+| Command Line Tools | ✓ | |
+| Homebrew | ✓ | |
+| Packages | ✓ | |
+| Dotfiles | `stow` | `ln -s` |
 
 ## Linux
 
