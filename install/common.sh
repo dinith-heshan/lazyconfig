@@ -6,10 +6,12 @@ STOW_PACKAGES="shell config tmux gitconfig"
 BACKUP_DIR="$HOME/.lazyconfig-backup/$(date +%Y%m%d-%H%M%S)"
 BACKUP_COUNT=0
 
-info() { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
-warn() { printf '\033[1;33mwarn:\033[0m %s\n' "$*" >&2; }
+step() { printf '\n\033[1;34m%s\033[0m\n' "$*"; }
+ok() { printf '  \033[32m✓\033[0m %s\n' "$*"; }
+note() { printf '  \033[2m%s\033[0m\n' "$*"; }
+warn() { printf '  \033[33m!\033[0m %s\n' "$*" >&2; }
 die() {
-  printf '\033[1;31merror:\033[0m %s\n' "$*" >&2
+  printf '  \033[31m✗\033[0m %s\n' "$*" >&2
   exit 1
 }
 
@@ -33,21 +35,30 @@ load_homebrew_env() {
 }
 
 install_homebrew_if_missing() {
+  step "Homebrew"
   if load_homebrew_env; then
-    info "Homebrew found at $(brew --prefix)"
+    ok "found at $(brew --prefix)"
     return
   fi
-  info "Installing Homebrew (asks for your password once)"
+  note "installing, asks for your password once"
   # NONINTERACTIVE can't prompt for a password, so cache sudo first.
   sudo -v
   NONINTERACTIVE=1 /bin/bash -c \
     "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  load_homebrew_env || die "Homebrew installed, but brew wasn't found"
+  load_homebrew_env || die "installed, but brew wasn't found"
+  ok "installed at $(brew --prefix)"
 }
 
 install_brewfile_packages() {
-  info "Installing packages from Brewfile"
-  if ! brew bundle --file "$REPO_DIR/Brewfile"; then
+  step "Packages"
+  local brewfile="$REPO_DIR/Brewfile"
+  if brew bundle check --no-upgrade --file "$brewfile" >/dev/null 2>&1; then
+    ok "everything in Brewfile already installed"
+    return
+  fi
+  if brew bundle --no-upgrade --file "$brewfile"; then
+    ok "Brewfile installed"
+  else
     warn "some packages failed, see above. Fix them, then run ./install.sh again."
   fi
 }
@@ -96,14 +107,15 @@ backup_files_blocking_stow() {
 
 link_dotfiles_with_stow() {
   # Without a real ~/.config, stow would make ~/.config itself a link into the repo.
+  step "Dotfiles"
   mkdir -p "$HOME/.config"
   local package
   for package in $STOW_PACKAGES; do
     backup_files_blocking_stow "$package"
     stow --dir "$REPO_DIR" --target "$HOME" --restow "$package"
-    info "linked $package"
   done
+  ok "linked $STOW_PACKAGES"
   if [ "$BACKUP_COUNT" -gt 0 ]; then
-    info "old files saved in $BACKUP_DIR"
+    note "old files saved in $BACKUP_DIR"
   fi
 }
