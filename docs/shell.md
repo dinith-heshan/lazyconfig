@@ -2,6 +2,8 @@
 
 `.zshrc` `.zprofile` `.bashrc` `.inputrc`
 
+## Settings
+
 | Setting | Value |
 |---|---|
 | mode | vi, `Esc` → block cursor, insert → bar |
@@ -11,12 +13,16 @@
 | `KEYTIMEOUT` | 1 (instant `Esc`) |
 | Homebrew | `.zprofile` expects `/opt/homebrew` |
 
+## Keys
+
 | Shell | Mode | Key | Does |
 |---|---|---|---|
 | both | insert | `Esc` | normal mode |
 | both | normal | `k` `j` | history filtered by what's typed |
 | bash | insert | `Up` `Down` | history filtered by what's typed |
 | bash | normal | `v` | disabled (no edit in `$EDITOR`) |
+
+## Commands
 
 | Command | Does |
 |---|---|
