@@ -23,3 +23,5 @@ copy-on-select = clipboard
 
 shell-integration-features = sudo,ssh-terminfo,ssh-env
 background-blur = true
+
+quit-after-last-window-closed = true
