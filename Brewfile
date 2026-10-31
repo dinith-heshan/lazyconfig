@@ -2,6 +2,7 @@ brew "stow"
 
 brew "starship"
 brew "eza"
+brew "fzf"
 brew "tmux"
 
 brew "neovim"
