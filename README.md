@@ -19,6 +19,14 @@ git clone https://github.com/dinith-heshan/lazyconfig.git ~/lazyconfig
 cd ~/lazyconfig && ./install.sh
 ```
 
+### Access
+ 
+| Machine | Needs |
+|---|---|
+| macOS | admin password, asked once for Homebrew |
+| Linux | sudo, for system packages and Homebrew |
+| no sudo or admin rights | `./install.sh --link-only` |
+
 ### Options
 
 | Option | Does |
