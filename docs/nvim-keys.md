@@ -32,7 +32,7 @@ Set in the config files.
 
 | Mode | Key | Does |
 |---|---|---|
-| `n` | `Esc` | clears the highlight left by a search |
+| `n` | `Esc` | clears the search highlight and the search text below the status line |
 | `n` | `n` `N` | next / prev match, centered on screen |
 | `n` | `C-d` `C-u` | half page down / up, centered on screen |
 
