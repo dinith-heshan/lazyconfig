@@ -2,6 +2,15 @@
 
 Terminal configuration for macOS and Linux.
 
+## Fork
+
+The install scripts have no user-specific paths. Only these files need changes in a fork.
+
+| File | Change |
+|---|---|
+| `README.md` | `dinith-heshan` in the clone commands to the fork's owner |
+| `gitconfig/.gitconfig` | `name` and `email` |
+
 ## Install
 
 ### macOS
