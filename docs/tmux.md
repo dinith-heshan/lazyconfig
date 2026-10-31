@@ -18,15 +18,17 @@
 
 | Table | Key | Does |
 |---|---|---|
-| — | `C-b` | unbound locally (default prefix), prefix again over SSH |
-| prefix | `C-b` | over SSH: sends `C-b` to a tmux nested inside |
+| — | `C-Space` | local prefix |
+| — | `C-b` | remote prefix |
+| prefix | `C-b` | send prefix to nested remote |
 | prefix | `h` `j` `k` `l` | move pane |
-| prefix | `s` | split down |
-| prefix | `v` | split right |
+| prefix | `s` | split stacked |
+| prefix | `v` | split vertically |
 | prefix | `c` | new window |
-| prefix | `Esc` | copy mode |
 | prefix | `r` | reload config |
+| prefix | `q` | copy mode |
 | copy-mode | `v` | start selection |
 | copy-mode | `V` | select line |
 | copy-mode | `C-v` | block selection |
 | copy-mode | `y` | copy and exit |
+| copy-mode | `q` | exit copy mode |
