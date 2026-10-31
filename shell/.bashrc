@@ -25,6 +25,8 @@ export EDITOR=nvim
 
 [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash)"
+
 if command -v eza >/dev/null 2>&1; then
   alias ll='eza -agHhilM --git --group-directories-first'
   alias ls='eza --group-directories-first'
