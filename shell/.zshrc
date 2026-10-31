@@ -42,6 +42,8 @@ zle -N down-line-or-beginning-search
 bindkey -M vicmd 'k' up-line-or-beginning-search
 bindkey -M vicmd 'j' down-line-or-beginning-search
 
+command -v fzf >/dev/null 2>&1 && source <(fzf --zsh)
+
 if command -v eza >/dev/null 2>&1; then
   alias ll='eza -agHhilM --git --group-directories-first'
   alias ls='eza --group-directories-first'
