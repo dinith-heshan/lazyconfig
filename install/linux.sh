@@ -101,11 +101,9 @@ install_font_on_desktop() {
 
 print_next_steps() {
   step "Next"
-  if [ "$LINK_ONLY" -eq 1 ]; then
-    note "nothing installed, configs use the tools already on this machine"
-  else
-    note "run nvim once to install plugins and tools"
-  fi
+  note_terminal_reload
+  note_tmux_reload
+  note_nvim_step
   if has_local_display && ! command -v ghostty >/dev/null 2>&1; then
     note "Ghostty (optional): https://ghostty.org/docs/install/binary"
   fi

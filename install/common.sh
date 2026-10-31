@@ -214,3 +214,29 @@ link_dotfiles_with_ln() {
   report_backups
   ok "linked with ln -s: ${DOTFILE_PACKAGES// /, }"
 }
+
+in_local_ghostty() {
+  [ -n "${GHOSTTY_RESOURCES_DIR:-}" ] && [ -z "${SSH_CONNECTION:-}" ]
+}
+
+note_terminal_reload() {
+  if in_local_ghostty; then
+    note "restart Ghostty to load its config"
+  else
+    note "open a new terminal to load the new shell config"
+  fi
+}
+
+note_tmux_reload() {
+  if [ -n "${TMUX:-}" ]; then
+    note "reload tmux: prefix r"
+  fi
+}
+
+note_nvim_step() {
+  if [ "$LINK_ONLY" -eq 1 ]; then
+    note "nothing installed, nvim config needs 0.12+"
+  else
+    note "run nvim once: plugins and tools install, needs internet"
+  fi
+}

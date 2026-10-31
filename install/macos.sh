@@ -20,12 +20,13 @@ require_command_line_tools() {
 
 print_next_steps() {
   step "Next"
-  if [ "$LINK_ONLY" -eq 1 ]; then
-    note "nothing installed, configs use the tools already on this machine"
-    return
+  if [ "$LINK_ONLY" -eq 0 ] && [ -z "${SSH_CONNECTION:-}" ] && ! in_local_ghostty; then
+    note "open Ghostty from Applications"
+  else
+    note_terminal_reload
   fi
-  note "open Ghostty"
-  note "run nvim once to install plugins and tools"
+  note_tmux_reload
+  note_nvim_step
 }
 
 link_only() {
