@@ -23,7 +23,9 @@ telescope.setup({
 telescope.load_extension('fzf')
 telescope.load_extension('ui-select')
 
-local function open_picker(picker, title, extra_opts, show_hidden, default_text)
+local show_hidden = false
+
+local function open_picker(picker, title, extra_opts, default_text)
   local opts = vim.tbl_extend('force', extra_opts, {
     default_text = default_text,
     prompt_title = show_hidden and (title .. ' + hidden') or title,
@@ -31,7 +33,8 @@ local function open_picker(picker, title, extra_opts, show_hidden, default_text)
       map({ 'i', 'n' }, toggle_hidden_key, function(prompt_bufnr)
         local text = action_state.get_current_line()
         actions.close(prompt_bufnr)
-        open_picker(picker, title, extra_opts, not show_hidden, text)
+        show_hidden = not show_hidden
+        open_picker(picker, title, extra_opts, text)
       end)
       return true
     end,
@@ -53,7 +56,7 @@ local function with_hidden_toggle(picker, title)
       picker_title = title .. ' (' .. word .. ')'
       extra_opts.search = word
     end
-    open_picker(picker, picker_title, extra_opts, false)
+    open_picker(picker, picker_title, extra_opts)
   end
 end
 
