@@ -253,14 +253,14 @@ Example flow: `<leader>lg` to search, `C-q` to send results to quickfix, `]q` to
 
 ## oil (in an oil buffer)
 
-A folder shown as text. Edits apply on `:w`: new lines create, changed lines rename, removed lines delete.
+A directory shown as text. Edits apply on `:w`: new lines create, changed lines rename, removed lines delete.
 
 ### Keys
 
 | Mode | Key | Does |
 |---|---|---|
-| `n` | `CR` | opens the file or folder |
-| `n` | `-` | goes to the parent folder |
+| `n` | `CR` | opens the file or directory |
+| `n` | `-` | goes to the parent directory |
 | `n` | `_` | goes to nvim's working directory |
 | `n` | `` ` `` / `g~` | sets the working directory / for this tab only |
 | `n` | `C-s` | opens in a side split |
