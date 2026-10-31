@@ -12,12 +12,14 @@
 | copy mode | vi |
 | clipboard | OSC 52, [clipboard](clipboard.md) |
 | colors | tokyonight, ghostty RGB |
+| status right | `hostname [session]`, hostname over SSH, orange while the prefix is active |
 
 ## Keys
 
 | Table | Key | Does |
 |---|---|---|
 | — | `C-b` | unbound locally (default prefix), prefix again over SSH |
+| prefix | `C-b` | over SSH: sends `C-b` to a tmux nested inside |
 | prefix | `h` `j` `k` `l` | move pane |
 | prefix | `s` | split down |
 | prefix | `v` | split right |
