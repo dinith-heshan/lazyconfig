@@ -202,6 +202,14 @@ Example flow: `<leader>lg` to search, `C-q` to send results to quickfix, `]q` to
 
 ## telescope (in a picker)
 
+### Hidden files
+
+`.gitignore` files inside a git repo and `.git` files stays hidden.
+
+| Mode | Key | Does |
+|---|---|---|
+| `i` `n` | `C-a` | shows / hides dotfiles, keeps the typed text, stays on for the session |
+
 ### Moving
 
 | Mode | Key | Does |
