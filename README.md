@@ -58,7 +58,7 @@ cd ~/lazyconfig && ./install.sh
 | [tmux](https://github.com/tmux/tmux) | multiplexer | Brewfile |
 | [starship](https://github.com/starship/starship) | prompt | Brewfile |
 | [eza](https://github.com/eza-community/eza) | `ls` `ll` `lt` | Brewfile |
-| [fzf](https://github.com/junegunn/fzf) | search history, insert file paths, cd into directories | Brewfile |
+| [fzf](https://github.com/junegunn/fzf) | search command history, insert file paths, cd into directories | Brewfile |
 | [neovim](https://github.com/neovim/neovim) | editor, 0.12+ for `vim.pack` | Brewfile |
 | [Node.js](https://github.com/nodejs/node) | mason installs prettier, basedpyright via npm | Brewfile |
 | [Python 3](https://github.com/python/cpython) | mason installs ruff, sqlfluff via pip | Brewfile |
