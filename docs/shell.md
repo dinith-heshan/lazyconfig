@@ -21,6 +21,9 @@
 | both | normal | `k` `j` | history filtered by what's typed |
 | bash | insert | `Up` `Down` | history filtered by what's typed |
 | bash | normal | `v` | disabled (no edit in `$EDITOR`) |
+| both | both | `C-r` | search history (fzf) |
+| both | both | `C-t` | insert a file path (fzf) |
+| both | both | `M-c` | cd into a directory (fzf) |
 
 ## Commands
 
