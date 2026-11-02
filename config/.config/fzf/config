@@ -1,0 +1,5 @@
+--layout=reverse
+--height=40%
+--color=fg:#c0caf5,bg:-1,bg+:#283457,gutter:-1
+--color=hl:#2ac3de,hl+:#2ac3de,prompt:#7aa2f7,pointer:#ff007c,marker:#ff007c
+--color=info:#545c7e,spinner:#ff007c,header:#ff9e64,border:#3b4261
