@@ -81,6 +81,7 @@ cd ~/lazyconfig && ./install.sh
 |---|---|
 | [install](docs/install.md) | steps, detection, backup, troubleshooting |
 | [shell](docs/shell.md) | zsh, bash, readline, aliases |
+| [fzf](docs/fzf.md) | layout, colors, file sources, completion |
 | [tmux](docs/tmux.md) | settings, keys |
 | [ghostty](docs/ghostty.md) | terminal settings |
 | [starship](docs/starship.md) | prompt |
