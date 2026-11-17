@@ -11,6 +11,7 @@ setopt SHARE_HISTORY
 export CLICOLOR=1
 export LS_COLORS='di=1;34:ln=1;35:so=1;32:pi=1;33:ex=1;31'
 export EDITOR=nvim
+(( $+commands[nvim] )) && export SUDO_EDITOR="${commands[nvim]}"
 export KEYTIMEOUT=1
 
 autoload -Uz compinit && compinit
