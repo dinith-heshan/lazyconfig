@@ -4,7 +4,7 @@ for brew_bin in \
   /home/linuxbrew/.linuxbrew/bin/brew \
   "$HOME/.linuxbrew/bin/brew"; do
   if [ -x "$brew_bin" ]; then
-    eval "$("$brew_bin" shellenv)"
+    eval "$("$brew_bin" shellenv zsh)"
     break
   fi
 done
