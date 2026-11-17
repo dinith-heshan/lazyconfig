@@ -65,12 +65,12 @@ distro_install_command() {
 install_homebrew_prerequisites() {
   step "System packages"
   case "$PACKAGE_MANAGER" in
-    apt-get) install_distro_packages build-essential procps curl file git xz-utils ;;
-    dnf) install_distro_packages gcc gcc-c++ make procps-ng curl file git xz ;;
-    pacman) install_distro_packages base-devel procps-ng curl file git xz ;;
-    *) die "no apt, dnf or pacman. Install gcc, make, curl, file, git, xz yourself, or use --link-only." ;;
+    apt-get) install_distro_packages build-essential procps curl file git xz-utils unzip ;;
+    dnf) install_distro_packages gcc gcc-c++ make procps-ng curl file git xz unzip ;;
+    pacman) install_distro_packages base-devel procps-ng curl file git xz unzip ;;
+    *) die "no apt, dnf or pacman. Install gcc, make, curl, file, git, xz, unzip yourself, or use --link-only." ;;
   esac
-  ok "installed with $(package_manager_name): build tools, curl, git"
+  ok "installed with $(package_manager_name): build tools, curl, git, unzip"
 }
 
 has_local_display() {
