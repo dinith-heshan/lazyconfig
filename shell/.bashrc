@@ -22,6 +22,10 @@ PROMPT_COMMAND='history -a'
 
 export LS_COLORS='di=1;34:ln=1;35:so=1;32:pi=1;33:ex=1;31'
 export EDITOR=nvim
+if nvim_path="$(type -P nvim)"; then
+  export SUDO_EDITOR="$nvim_path"
+fi
+unset nvim_path
 
 [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 
