@@ -2,6 +2,8 @@
 
 Terminal configuration for macOS and Linux.
 
+Inspired by [LazyVim](https://github.com/LazyVim/LazyVim) by [folke](https://github.com/folke).
+
 ## Fork
 
 The install scripts have no user-specific paths. Only these files need changes in a fork.
