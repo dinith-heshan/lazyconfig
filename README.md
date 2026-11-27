@@ -1,8 +1,8 @@
 # lazyconfig
 
-Terminal configuration for macOS and Linux.
+Opinionated terminal configuration for macOS and Linux.
 
-Inspired by [LazyVim](https://github.com/LazyVim/LazyVim) by [folke](https://github.com/folke).
+Inspired by [LazyVim](https://github.com/LazyVim/LazyVim) by [folke](https://github.com/folke). The nvim config started from [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) and has since been reworked.
 
 ## Fork
 
